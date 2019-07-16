@@ -1,0 +1,20 @@
+{
+  "name": "fooder",
+  "version": "1.0.0",
+  "description": "Tinder.... for food!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeremyash13/fooder.git"
+  },
+  "keywords": [],
+  "author": "Jeremy Ashcraft",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jeremyash13/fooder/issues"
+  },
+  "homepage": "https://github.com/jeremyash13/fooder#readme"
+}
