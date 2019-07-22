@@ -16,5 +16,13 @@
   "bugs": {
     "url": "https://github.com/jeremyash13/fooder/issues"
   },
-  "homepage": "https://github.com/jeremyash13/fooder#readme"
+  "homepage": "https://github.com/jeremyash13/fooder#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "file-type": "^12.0.1",
+    "node-fetch": "^2.6.0"
+  },
+  "proxy": "http://localhost:8080"
 }
