@@ -1,62 +1,117 @@
-import React, { Component } from 'react'
-import Heading from './Heading';
-import About from './About';
-
+import React, { Component } from "react";
+import { Button } from "@material-ui/core/";
+import Heading from "./Heading";
+import About from "./About";
 
 export default class Body extends Component {
-    constructor(props) {
-        super(props)
-    
-        this.state = {
-            //location: Lat, Long
-            location: '',
-             name: 'Texas Roadhouse',
-             distance: '5mi.',
-             address: '2535 South 25th East, Ammon',
-             rating: '4.4',
-             price: '2',
-             tags: ['bar', ' restaurant'],
-             key: 'AIzaSyCAkiTbJB7LAyQx3lBt-P0XYIgZqe5G7Zs',
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      //location: Lat, Long
+      location: "",
+      places: [
+        {
+          name: "",
+          vicinity: "",
+          rating: "",
+          price_level: "",
+          types: []
         }
-    }
-    componentDidMount() {
-        this.getGeoLocation()
-    }
-    getGeoLocation() {
-        navigator.geolocation.getCurrentPosition(position => {
+      ],
+      placesIndex: 0
+    };
+  }
+  componentDidMount() {
+    this.getGeoLocation();
+  }
+  getGeoLocation() {
+    navigator.geolocation.getCurrentPosition(position => {
+      const latitude = position.coords.latitude.toString();
+      const longitude = position.coords.longitude.toString();
 
-            const latitude = position.coords.latitude.toString()
-            const longitude = position.coords.longitude.toString()
+      this.setState({
+        location: latitude + "," + longitude
+      });
 
-            this.setState({
-                location: latitude + ',' + longitude
-            })
+      this.fetchPlaces();
+    });
+  }
+  fetchPlaces = async () => {
+    //fetch nearby restaurants using Google's Places Search API
 
-            this.fetchPlaces()
-        })
-    }
-    fetchPlaces() {
-        //fetch nearby restaurants using Google's Places Search API
+    const { location, placesIndex } = this.state;
 
-        
+    const url = "http://localhost:8080";
+    const body = {
+      location: location,
+      radius: "32186.9",
+      type: "restaurant"
+    };
+    const res = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+    const json = await res.json();
+    console.log(json.results);
+    this.setState({
+      places: json.results
+    });
+  };
+
+  acceptableTags(type) {
+    return type === "food" || type === "bar" || type === "restaurant";
+  }
+
+  handleChoice = choice => {
+    if (choice === "no") {
+      this.setState(prevState => {
+        return {
+          placesIndex: prevState.placesIndex + 1
+        };
+      });
     }
-    
-    render() {
-        return (
-            <div className={this.props.className}>
-                {/* <script type="text/javascript" src={`https://maps.googleapis.com/maps/api/js?key=${this.state.key}&libraries=places`}>
-                </script> */}
-                <Heading className="Heading">
-                    <h1>{this.state.name}</h1>
-                    <h2>{this.state.distance}</h2>
-                    <h4>{this.state.address}</h4>
-                </Heading>
-                <About className="About">
-                    <p>{this.state.rating}</p>
-                    <p>{this.state.price}</p>
-                    <p>{this.state.tags}</p>
-                </About>
-            </div>
-        )
-    }
+  };
+
+  render() {
+    const {
+      name,
+      distance,
+      address,
+      rating,
+      price,
+      tags,
+      places,
+      placesIndex
+    } = this.state;
+    return (
+      <div className={this.props.className}>
+        <Heading className="Heading">
+          <h1>{`Name: ${places[placesIndex].name}`}</h1>
+          {/* <h2>{`Distance: ${distance}`}</h2> */}
+          <h4>{`Address: ${places[placesIndex].vicinity}`}</h4>
+        </Heading>
+        <About className="About">
+          <p>{`Rating: ${places[placesIndex].rating}`}</p>
+          <p>{`Price: ${places[placesIndex].price_level}`}</p>
+          <p>{`Tags: ${places[placesIndex].types.filter(
+            this.acceptableTags
+          )}`}</p>
+          <Button color="secondary" onClick={() => this.handleChoice("no")}>
+            NOPE
+          </Button>
+          <Button
+            color="primary"
+            classes={{ label: "button--primary" }}
+            onClick={() => this.handleChoice("yes")}
+          >
+            YEA
+          </Button>
+        </About>
+      </div>
+    );
+  }
 }
