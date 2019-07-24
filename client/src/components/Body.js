@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Button } from "@material-ui/core/";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHamburger, faGlassCheers, faUtensils } from '@fortawesome/free-solid-svg-icons'
 import Heading from "./Heading";
 import About from "./About";
 
