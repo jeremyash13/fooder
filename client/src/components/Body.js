@@ -28,6 +28,8 @@ export default class Body extends Component {
     this.getGeoLocation();
   }
   getGeoLocation() {
+    // Get user location (latitude, longitude)
+
     navigator.geolocation.getCurrentPosition(position => {
       const latitude = position.coords.latitude.toString();
       const longitude = position.coords.longitude.toString();
@@ -42,12 +44,12 @@ export default class Body extends Component {
   fetchPlaces = async () => {
     //fetch nearby restaurants using Google's Places Search API
 
-    const { location, placesIndex } = this.state;
+    const { location } = this.state;
 
     const url = "http://localhost:8080";
     const body = {
       location: location,
-      radius: "32186.9",
+      radius: "32186.9", /* 20 mi. (in meters)*/
       type: "restaurant"
     };
     const res = await fetch(url, {
@@ -65,6 +67,7 @@ export default class Body extends Component {
   };
 
   acceptableTags(type) {
+    // Filtering conditions for the .filter() func on the places.types array
     return type === "food" || type === "bar" || type === "restaurant";
   }
 
@@ -80,12 +83,6 @@ export default class Body extends Component {
 
   render() {
     const {
-      name,
-      distance,
-      address,
-      rating,
-      price,
-      tags,
       places,
       placesIndex
     } = this.state;
@@ -99,9 +96,7 @@ export default class Body extends Component {
         <About className="About">
           <p>{`Rating: ${places[placesIndex].rating}`}</p>
           <p>{`Price: ${places[placesIndex].price_level}`}</p>
-          <p>{`Tags: ${places[placesIndex].types.filter(
-            this.acceptableTags
-          )}`}</p>
+          <p>{`Tags: ${places[placesIndex].types.filter(this.acceptableTags)}`}</p>
           <Button color="secondary" onClick={() => this.handleChoice("no")}>
             NOPE
           </Button>
