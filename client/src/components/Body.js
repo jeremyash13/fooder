@@ -1,9 +1,14 @@
 import React, { Component } from "react";
-import { Button } from "@material-ui/core/";
+import { Button, Chip } from "@material-ui/core/";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHamburger, faGlassCheers, faUtensils } from '@fortawesome/free-solid-svg-icons'
 import Heading from "./Heading";
-import About from "./About";
+import PlaceInfo from "./PlaceInfo";
+import PlaceRating from "./PlaceRating";
+import PlacePrice from "./PlacePrice";
+import PlaceTags from "./PlaceTags";
+import PlaceAddress from "./PlaceAddress";
+import PlaceName from "./PlaceName";
 
 export default class Body extends Component {
   constructor(props) {
@@ -79,7 +84,7 @@ export default class Body extends Component {
         };
       });
     }
-  };
+  }
 
   render() {
     const {
@@ -89,14 +94,16 @@ export default class Body extends Component {
     return (
       <div className={this.props.className}>
         <Heading className="Heading">
-          <h1>{`Name: ${places[placesIndex].name}`}</h1>
+          <PlaceName value={places[placesIndex].name}/>
           {/* <h2>{`Distance: ${distance}`}</h2> */}
-          <h4>{`Address: ${places[placesIndex].vicinity}`}</h4>
+          <PlaceAddress value={places[placesIndex].vicinity}/>
         </Heading>
-        <About className="About">
-          <p>{`Rating: ${places[placesIndex].rating}`}</p>
-          <p>{`Price: ${places[placesIndex].price_level}`}</p>
-          <p>{`Tags: ${places[placesIndex].types.filter(this.acceptableTags)}`}</p>
+        <PlaceInfo className="PlaceInfo">
+          <PlaceRating value={places[placesIndex].rating}/>
+          <PlacePrice value={places[placesIndex].price_level}/>
+          <PlaceTags value={places[placesIndex].types.filter(this.acceptableTags)}/>
+        </PlaceInfo>
+          
           <Button color="secondary" onClick={() => this.handleChoice("no")}>
             NOPE
           </Button>
@@ -107,7 +114,6 @@ export default class Body extends Component {
           >
             YEA
           </Button>
-        </About>
       </div>
     );
   }
