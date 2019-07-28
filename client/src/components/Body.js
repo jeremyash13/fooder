@@ -1,11 +1,5 @@
 import React, { Component } from "react";
 import { Button, Chip } from "@material-ui/core/";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHamburger,
-  faGlassCheers,
-  faUtensils
-} from "@fortawesome/free-solid-svg-icons";
 import Heading from "./Heading";
 import PlaceInfo from "./PlaceInfo";
 import PlaceRating from "./PlaceRating";
@@ -81,12 +75,26 @@ export default class Body extends Component {
   }
 
   handleChoice = choice => {
-    if (choice === "no") {
-      this.setState(prevState => {
-        return {
-          placesIndex: prevState.placesIndex + 1
-        };
-      });
+    const { placesIndex, places } = this.state;
+    if (choice === "next") {
+      // show next place if we arent viewing the final place
+      if (placesIndex !== places.length - 1) {
+        this.setState(prevState => {
+          return {
+            placesIndex: prevState.placesIndex + 1
+          };
+        });
+      }
+    }
+    if (choice === "prev") {
+      // show previous place if we arent viewing the first place
+      if (placesIndex !== 0) {
+        this.setState(prevState => {
+          return {
+            placesIndex: prevState.placesIndex - 1
+          };
+        });
+      }
     }
   };
 
@@ -107,15 +115,15 @@ export default class Body extends Component {
           />
         </PlaceInfo>
 
-        <Button color="secondary" onClick={() => this.handleChoice("no")}>
-          NOPE
-        </Button>
         <Button
           color="primary"
           classes={{ label: "button--primary" }}
-          onClick={() => this.handleChoice("yes")}
+          onClick={() => this.handleChoice("prev")}
         >
-          YEA
+          PREV
+        </Button>
+        <Button color="secondary" onClick={() => this.handleChoice("next")}>
+          NEXT
         </Button>
       </div>
     );
