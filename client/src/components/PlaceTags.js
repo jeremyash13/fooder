@@ -1,9 +1,23 @@
-import React from 'react'
+import React from "react";
+import Chip from "@material-ui/core/Chip";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faGlassCheers,
+  faUtensils,
+  faHamburger
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function PlaceTags(props) {
-    return (
-        <div>
-            <p>{`Tags: ${props.value}`}</p>
-        </div>
-    )
+  const chipTags = tagCount => {
+    let chipArray = [];
+    for (let i = 0; i < tagCount.length; i++) {
+      chipArray = [...chipArray, <Chip label={props.value[i]} key={i} />];
+    }
+    return chipArray;
+  };
+  return (
+    <div>
+      <p>Tags: {chipTags(props.value)}</p>
+    </div>
+  );
 }
