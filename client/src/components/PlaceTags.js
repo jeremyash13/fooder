@@ -17,7 +17,7 @@ export default function PlaceTags(props) {
   };
   return (
     <div>
-      <p>Tags: {chipTags(props.value)}</p>
+        {chipTags(props.value)}
     </div>
   );
 }
