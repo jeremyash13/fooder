@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { Button, Chip } from "@material-ui/core/";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHamburger, faGlassCheers, faUtensils } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHamburger,
+  faGlassCheers,
+  faUtensils
+} from "@fortawesome/free-solid-svg-icons";
 import Heading from "./Heading";
 import PlaceInfo from "./PlaceInfo";
 import PlaceRating from "./PlaceRating";
@@ -54,7 +58,7 @@ export default class Body extends Component {
     const url = "http://localhost:8080";
     const body = {
       location: location,
-      radius: "32186.9", /* 20 mi. (in meters)*/
+      radius: "32186.9" /* 20 mi. (in meters)*/,
       type: "restaurant"
     };
     const res = await fetch(url, {
@@ -84,36 +88,35 @@ export default class Body extends Component {
         };
       });
     }
-  }
+  };
 
   render() {
-    const {
-      places,
-      placesIndex
-    } = this.state;
+    const { places, placesIndex } = this.state;
     return (
       <div className={this.props.className}>
         <Heading className="Heading">
-          <PlaceName value={places[placesIndex].name}/>
+          <PlaceName value={places[placesIndex].name} />
           {/* <h2>{`Distance: ${distance}`}</h2> */}
-          <PlaceAddress value={places[placesIndex].vicinity}/>
+          <PlaceAddress value={places[placesIndex].vicinity} />
         </Heading>
         <PlaceInfo className="PlaceInfo">
-          <PlaceRating value={places[placesIndex].rating}/>
-          <PlacePrice value={places[placesIndex].price_level}/>
-          <PlaceTags value={places[placesIndex].types.filter(this.acceptableTags)}/>
+          <PlaceRating value={places[placesIndex].rating} />
+          <PlacePrice value={places[placesIndex].price_level} />
+          <PlaceTags
+            value={places[placesIndex].types.filter(this.acceptableTags)}
+          />
         </PlaceInfo>
-          
-          <Button color="secondary" onClick={() => this.handleChoice("no")}>
-            NOPE
-          </Button>
-          <Button
-            color="primary"
-            classes={{ label: "button--primary" }}
-            onClick={() => this.handleChoice("yes")}
-          >
-            YEA
-          </Button>
+
+        <Button color="secondary" onClick={() => this.handleChoice("no")}>
+          NOPE
+        </Button>
+        <Button
+          color="primary"
+          classes={{ label: "button--primary" }}
+          onClick={() => this.handleChoice("yes")}
+        >
+          YEA
+        </Button>
       </div>
     );
   }
