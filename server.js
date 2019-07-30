@@ -10,10 +10,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.post("/", async (req, res) => {
-  const { location, radius, type } = req.body;
+  const { location, radius, type, pageToken } = req.body;
   const key = 'AIzaSyCAkiTbJB7LAyQx3lBt-P0XYIgZqe5G7Zs';
+  let url;
 
-  const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${key}&location=${location}&radius=${radius}&type=${type}`;
+  if (pageToken) {
+    url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${key}&location=${location}&radius=${radius}&type=${type}&pagetoken=${pageToken}`;
+  } else {
+    url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${key}&location=${location}&radius=${radius}&type=${type}`;
+  }
 
   const data = await fetch(url);
   const json = await data.json();

@@ -24,7 +24,8 @@ export default class Body extends Component {
           types: []
         }
       ],
-      placesIndex: 0
+      placesIndex: 0,
+      nextPageToken: null
     };
   }
   componentDidMount() {
@@ -47,13 +48,14 @@ export default class Body extends Component {
   fetchPlaces = async () => {
     //fetch nearby restaurants using Google's Places Search API
 
-    const { location } = this.state;
+    const { location, nextPageToken } = this.state;
 
     const url = "http://localhost:8080";
     const body = {
       location: location,
       radius: "32186.9" /* 20 mi. (in meters)*/,
-      type: "restaurant"
+      type: "restaurant",
+      pageToken: nextPageToken
     };
     const res = await fetch(url, {
       method: "POST",
@@ -63,9 +65,11 @@ export default class Body extends Component {
       }
     });
     const json = await res.json();
-    console.log(json.results);
+    console.log(json);
     this.setState({
-      places: json.results
+      places: json.results,
+      nextPageToken: json.next_page_token,
+      placesIndex: 0
     });
   };
 
@@ -77,13 +81,16 @@ export default class Body extends Component {
   handleChoice = choice => {
     const { placesIndex, places } = this.state;
     if (choice === "next") {
-      // show next place if we arent viewing the final place
       if (placesIndex !== places.length - 1) {
+        // show next place if we arent viewing the final place
         this.setState(prevState => {
           return {
             placesIndex: prevState.placesIndex + 1
           };
         });
+      } else {
+          // save next page of search results to state
+          this.fetchPlaces()
       }
     }
     if (choice === "prev") {
