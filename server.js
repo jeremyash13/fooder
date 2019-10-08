@@ -1,4 +1,3 @@
-const dotenv = require("dotenv").config();
 const express = require("express");
 const fetch = require("node-fetch");
 const bodyParser = require("body-parser");
@@ -6,7 +5,7 @@ const cors = require("cors");
 const app = express();
 
 
-const port = process.env.PORT;
+const port = process.env.PORT || 8080;
 
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -31,7 +30,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.listen(port, () => {
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV !== 'production') {
     console.log(`Listening on http://localhost:${port}`);
   }
 });
