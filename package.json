@@ -28,7 +28,5 @@
     "file-type": "^12.0.1",
     "node-fetch": "^2.6.0"
   },
-  "devDependencies": {
-    "dotenv": "^8.1.0"
-  }
+  "devDependencies": {}
 }
