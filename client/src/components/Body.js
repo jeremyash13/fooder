@@ -76,9 +76,9 @@ export default class Body extends Component {
     const newState = this.state
     json.results.map(item => {
         newState.places.push(item)
-    })
+      })
+      console.log(newState)
     newState.nextPageToken = json.next_page_token
-    console.log(`newState: ${newState}`);
     this.setState(newState, () => {this.setCurrentView()});
   };
 
