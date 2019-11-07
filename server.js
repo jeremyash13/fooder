@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const fetch = require("node-fetch");
 const bodyParser = require("body-parser");
@@ -11,7 +12,7 @@ app.use(bodyParser.json());
 
 app.post("/", async (req, res) => {
   const { location, radius, type, pageToken } = req.body;
-  const key = 'AIzaSyCAkiTbJB7LAyQx3lBt-P0XYIgZqe5G7Zs';
+  const key = process.env.GOOGLE_API_KEY;
   let url;
 
   if (pageToken) {
@@ -25,4 +26,16 @@ app.post("/", async (req, res) => {
   res.send(json);
 });
 
-app.listen(port, () => console.log(`Listening on http://localhost:${port}`));
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static('client/build'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+  })
+}
+
+app.listen(port, () => {
+  if (process.env.NODE_ENV === 'development') {
+    // console.log the port if we're in the development environment
+    console.log(`Listening on http://localhost:${port}`);
+  }
+});

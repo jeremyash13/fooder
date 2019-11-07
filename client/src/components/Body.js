@@ -13,9 +13,9 @@ export default class Body extends Component {
     super(props);
 
     this.state = {
-      //location: Lat, Long
+      //location (Lat, Long)
       location: "",
-      places: [
+      currentView: [
         {
           name: "",
           vicinity: "",
@@ -24,12 +24,14 @@ export default class Body extends Component {
           types: []
         }
       ],
+      places: [],
       placesIndex: 0,
       nextPageToken: null
     };
   }
   componentDidMount() {
     this.getGeoLocation();
+    
   }
   getGeoLocation() {
     // Get user location (latitude, longitude)
@@ -41,8 +43,8 @@ export default class Body extends Component {
       this.setState({
         location: latitude + "," + longitude
       });
-
       this.fetchPlaces();
+      
     });
   }
   fetchPlaces = async () => {
@@ -65,13 +67,33 @@ export default class Body extends Component {
       }
     });
     const json = await res.json();
-    console.log(json);
-    this.setState({
-      places: json.results,
-      nextPageToken: json.next_page_token,
-      placesIndex: 0
-    });
+    // console.log(json);
+    // this.setState({
+    //   places: json.results,
+    //   nextPageToken: json.next_page_token,
+    //   placesIndex: 0
+    // });
+    const newState = this.state
+    json.results.map(item => {
+        newState.places.push(item)
+    })
+    newState.nextPageToken = json.next_page_token
+    console.log(`newState: ${newState}`);
+    this.setState(newState, () => {this.setCurrentView()});
   };
+
+  setCurrentView() {
+    const newState = this.state;
+    const {placesIndex} = newState;
+    newState.currentView = {
+        name: newState.places[placesIndex].name,
+        vicinity: newState.places[placesIndex].vicinity,
+        rating: newState.places[placesIndex].rating,
+        price_level: newState.places[placesIndex].price_level,
+        types: newState.places[placesIndex].types.filter(this.acceptableTags)
+    }
+    this.setState(newState)
+  }
 
   acceptableTags(type) {
     // Filtering conditions for the .filter() func on the places.types array
@@ -92,6 +114,7 @@ export default class Body extends Component {
           // save next page of search results to state
           this.fetchPlaces()
       }
+      this.setCurrentView()
     }
     if (choice === "prev") {
       // show previous place if we arent viewing the first place
@@ -106,20 +129,20 @@ export default class Body extends Component {
   };
 
   render() {
-    const { places, placesIndex } = this.state;
+    const { places, placesIndex, currentView } = this.state;
     return (
       <div className={this.props.className}>
         <Heading className="Heading">
-          <PlaceName value={places[placesIndex].name} />
+          <PlaceName value={currentView.name} />
           {/* <h2>{`Distance: ${distance}`}</h2> */}
-          <PlaceAddress value={places[placesIndex].vicinity} />
+          <PlaceAddress value={currentView.vicinity} />
         </Heading>
         <PlaceInfo className="PlaceInfo">
-          <PlaceRating value={places[placesIndex].rating} />
-          <PlacePrice value={places[placesIndex].price_level} />
-          <PlaceTags
-            value={places[placesIndex].types.filter(this.acceptableTags)}
-          />
+          <PlaceRating value={currentView.rating} />
+          <PlacePrice value={currentView.price_level} />
+          {/* <PlaceTags
+            value={currentView.types}
+          /> */}
         </PlaceInfo>
 
         <Button
