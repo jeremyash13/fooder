@@ -15,15 +15,15 @@ export default class Body extends Component {
     this.state = {
       //location (Lat, Long)
       location: "",
-      currentView: [
-        {
-          name: "",
-          vicinity: "",
-          rating: "",
-          price_level: "",
-          types: []
-        }
-      ],
+      // currentView: [
+      //   {
+      //     name: "",
+      //     vicinity: "",
+      //     rating: "",
+      //     price_level: "",
+      //     types: []
+      //   }
+      // ],
       places: [],
       placesIndex: 0,
       nextPageToken: null
@@ -77,23 +77,25 @@ export default class Body extends Component {
     json.results.map(item => {
         newState.places.push(item)
       })
-      console.log(newState)
-    newState.nextPageToken = json.next_page_token
-    this.setState(newState, () => {this.setCurrentView()});
+      newState.nextPageToken = json.next_page_token
+      newState.placesIndex = 0
+      this.setState(newState)
+      // console.log(this.state)
+    // this.setState(newState, () => {this.setCurrentView()});
   };
 
-  setCurrentView() {
-    const newState = this.state;
-    const {placesIndex} = newState;
-    newState.currentView = {
-        name: newState.places[placesIndex].name,
-        vicinity: newState.places[placesIndex].vicinity,
-        rating: newState.places[placesIndex].rating,
-        price_level: newState.places[placesIndex].price_level,
-        types: newState.places[placesIndex].types.filter(this.acceptableTags)
-    }
-    this.setState(newState)
-  }
+  // setCurrentView() {
+  //   const newState = this.state;
+  //   const {placesIndex} = newState;
+  //   newState.currentView = {
+  //       name: newState.places[placesIndex].name,
+  //       vicinity: newState.places[placesIndex].vicinity,
+  //       rating: newState.places[placesIndex].rating,
+  //       price_level: newState.places[placesIndex].price_level,
+  //       types: newState.places[placesIndex].types.filter(this.acceptableTags)
+  //   }
+  //   this.setState(newState)
+  // }
 
   acceptableTags(type) {
     // Filtering conditions for the .filter() func on the places.types array
@@ -114,7 +116,7 @@ export default class Body extends Component {
           // save next page of search results to state
           this.fetchPlaces()
       }
-      this.setCurrentView()
+      // this.setCurrentView()
     }
     if (choice === "prev") {
       // show previous place if we arent viewing the first place
@@ -130,16 +132,18 @@ export default class Body extends Component {
 
   render() {
     const { places, placesIndex, currentView } = this.state;
+    let i = placesIndex;
+    console.log(places[0])
     return (
       <div className={this.props.className}>
         <Heading className="Heading">
-          <PlaceName value={currentView.name} />
+          <PlaceName value={places.name} />
           {/* <h2>{`Distance: ${distance}`}</h2> */}
-          <PlaceAddress value={currentView.vicinity} />
+          <PlaceAddress value={places.vicinity} />
         </Heading>
         <PlaceInfo className="PlaceInfo">
-          <PlaceRating value={currentView.rating} />
-          <PlacePrice value={currentView.price_level} />
+          <PlaceRating value={places.rating} />
+          <PlacePrice value={places.price_level} />
           {/* <PlaceTags
             value={currentView.types}
           /> */}
