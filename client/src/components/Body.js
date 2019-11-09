@@ -24,7 +24,13 @@ export default class Body extends Component {
       //     types: []
       //   }
       // ],
-      places: [],
+      places: [{
+            name: "",
+            vicinity: "",
+            rating: "",
+            price_level: "",
+            types: []
+          }],
       placesIndex: 0,
       nextPageToken: null
     };
@@ -67,20 +73,11 @@ export default class Body extends Component {
       }
     });
     const json = await res.json();
-    // console.log(json);
-    // this.setState({
-    //   places: json.results,
-    //   nextPageToken: json.next_page_token,
-    //   placesIndex: 0
-    // });
     const newState = this.state
-    json.results.map(item => {
-        newState.places.push(item)
-      })
+    newState.places = [...json.results]
       newState.nextPageToken = json.next_page_token
       newState.placesIndex = 0
       this.setState(newState)
-      // console.log(this.state)
     // this.setState(newState, () => {this.setCurrentView()});
   };
 
@@ -133,17 +130,16 @@ export default class Body extends Component {
   render() {
     const { places, placesIndex, currentView } = this.state;
     let i = placesIndex;
-    console.log(places[0])
     return (
       <div className={this.props.className}>
         <Heading className="Heading">
-          <PlaceName value={places.name} />
+          <PlaceName value={places[i].name} />
           {/* <h2>{`Distance: ${distance}`}</h2> */}
-          <PlaceAddress value={places.vicinity} />
+          <PlaceAddress value={places[i].vicinity} />
         </Heading>
         <PlaceInfo className="PlaceInfo">
-          <PlaceRating value={places.rating} />
-          <PlacePrice value={places.price_level} />
+          <PlaceRating value={places[i].rating} />
+          <PlacePrice value={places[i].price_level} />
           {/* <PlaceTags
             value={currentView.types}
           /> */}
