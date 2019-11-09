@@ -36,6 +36,7 @@ if (process.env.NODE_ENV === "production") {
 app.listen(port, () => {
   if (process.env.NODE_ENV === 'development') {
     // console.log the port if we're in the development environment
+    console.log('Server start successful. Node evironment: DEVELOPMENT');
     console.log(`Listening on http://localhost:${port}`);
   }
 });

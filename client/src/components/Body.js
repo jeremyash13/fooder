@@ -100,6 +100,33 @@ export default class Body extends Component {
       }
     }
   };
+  handleShowNextPlace = () => {
+    const { placesIndex, places } = this.state;
+    if (placesIndex !== places.length - 1) {
+      // show next place if we arent viewing the final place
+      this.setState(prevState => {
+        return {
+          placesIndex: prevState.placesIndex + 1
+        };
+      });
+    }
+    if (placesIndex >= places.length - 5) {
+      // save next page of search results to state when nearing end of places array
+      this.fetchPlaces()
+    }
+  }
+
+  handleShowPreviousPlace = () => {
+    // show previous place if we arent viewing the first place
+    const { placesIndex, places } = this.state;
+    if (placesIndex !== 1) {
+      this.setState(prevState => {
+        return {
+          placesIndex: prevState.placesIndex - 1
+        };
+      });
+    }
+  }
 
   render() {
     const { places, placesIndex } = this.state;
@@ -120,11 +147,11 @@ export default class Body extends Component {
         <Button
           color="primary"
           classes={{ label: "button--primary" }}
-          onClick={() => this.handleChoice("prev")}
+          onClick={() => this.handleShowPreviousPlace()}
         >
           PREV
         </Button>
-        <Button color="secondary" onClick={() => this.handleChoice("next")}>
+        <Button color="secondary" onClick={() => this.handleShowNextPlace()}>
           NEXT
         </Button>
       </div>
