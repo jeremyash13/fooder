@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faGlassCheers,
   faUtensils,
-  faHamburger
+  faHamburger,
+  faMusic,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default function PlaceTags(props) {
@@ -18,6 +19,8 @@ export default function PlaceTags(props) {
         chipArray = [...chipArray, <Chip label={'Restaurant'} key={i} icon={<FontAwesomeIcon icon={faUtensils} />}/>]
       } else if (props.value[i] === 'food') {
         chipArray = [...chipArray, <Chip label={'Food'} key={i} icon={<FontAwesomeIcon icon={faHamburger} />}/>]
+      } else if (props.value[i] === 'night_club') {
+        chipArray = [...chipArray, <Chip label={'Night Club'} key={i} icon={<FontAwesomeIcon icon={faMusic} />}/>]
       }
     }
     return chipArray;
