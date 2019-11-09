@@ -12,7 +12,6 @@ export default function PlaceTags(props) {
   const chipTags = tagCount => {
     let chipArray = [];
     for (let i = 0; i < tagCount.length; i++) {
-      // chipArray = [...chipArray, <Chip label={props.value[i]} key={i} />];
       if (props.value[i] === 'bar') {
         chipArray = [...chipArray,<Chip label={'Bar'} key={i} icon={<FontAwesomeIcon icon={faGlassCheers} />}/>]
       } else if (props.value[i] === 'restaurant') {

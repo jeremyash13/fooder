@@ -8,7 +8,7 @@ export default class App extends Component {
   render() {
     return (
       <React.Fragment>
-        <CssBaseline />
+        {/* <CssBaseline /> */}
         <Container className="App" maxWidth="xs">
           <Body className="body" />
         </Container>
