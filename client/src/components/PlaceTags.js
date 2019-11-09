@@ -23,7 +23,7 @@ export default function PlaceTags(props) {
     return chipArray;
   };
   return (
-    <div>
+    <div className="tags--wrapper">
         {chipTags(props.value)}
     </div>
   );

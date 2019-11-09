@@ -109,24 +109,26 @@ export default class Body extends Component {
         <Heading className="Heading">
           <PlaceName value={places[i].name} />
           {/* <h2>{`Distance: ${distance}`}</h2> */}
-          <PlaceAddress value={places[i].vicinity} />
         </Heading>
         <PlaceInfo className="PlaceInfo">
+          <PlaceAddress value={places[i].vicinity} />
           <PlaceRating value={places[i].rating} />
           <PlacePrice value={places[i].price_level} />
           <PlaceTags value={[...places[i].types]} />
         </PlaceInfo>
 
-        <Button
-          color="primary"
-          classes={{ label: "button--primary" }}
-          onClick={() => this.handleShowPreviousPlace()}
-        >
-          PREV
-        </Button>
-        <Button color="secondary" onClick={() => this.handleShowNextPlace()}>
-          NEXT
-        </Button>
+        <div className="buttons--wrapper">
+          <Button
+            color="primary"
+            classes={{ label: "button--primary" }}
+            onClick={() => this.handleShowPreviousPlace()}
+          >
+            PREV
+          </Button>
+          <Button color="secondary" onClick={() => this.handleShowNextPlace()}>
+            NEXT
+          </Button>
+        </div>
       </div>
     );
   }
