@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Chip } from "@material-ui/core/";
+import { Button } from "@material-ui/core/";
 import Heading from "./Heading";
 import PlaceInfo from "./PlaceInfo";
 import PlaceRating from "./PlaceRating";
@@ -15,15 +15,6 @@ export default class Body extends Component {
     this.state = {
       //location (Lat, Long)
       location: "",
-      // currentView: [
-      //   {
-      //     name: "",
-      //     vicinity: "",
-      //     rating: "",
-      //     price_level: "",
-      //     types: []
-      //   }
-      // ],
       places: [{
             name: "",
             vicinity: "",
@@ -74,30 +65,13 @@ export default class Body extends Component {
     });
     const json = await res.json();
     const newState = this.state
-    newState.places = [...json.results]
+    newState.places = [...newState.places, ...json.results]
       newState.nextPageToken = json.next_page_token
-      newState.placesIndex = 0
+      if (newState.placesIndex === 0) {
+        newState.placesIndex = 1
+      }
       this.setState(newState)
-    // this.setState(newState, () => {this.setCurrentView()});
   };
-
-  // setCurrentView() {
-  //   const newState = this.state;
-  //   const {placesIndex} = newState;
-  //   newState.currentView = {
-  //       name: newState.places[placesIndex].name,
-  //       vicinity: newState.places[placesIndex].vicinity,
-  //       rating: newState.places[placesIndex].rating,
-  //       price_level: newState.places[placesIndex].price_level,
-  //       types: newState.places[placesIndex].types.filter(this.acceptableTags)
-  //   }
-  //   this.setState(newState)
-  // }
-
-  acceptableTags(type) {
-    // Filtering conditions for the .filter() func on the places.types array
-    return type === "food" || type === "bar" || type === "restaurant";
-  }
 
   handleChoice = choice => {
     const { placesIndex, places } = this.state;
@@ -109,15 +83,15 @@ export default class Body extends Component {
             placesIndex: prevState.placesIndex + 1
           };
         });
-      } else {
-          // save next page of search results to state
-          this.fetchPlaces()
       }
-      // this.setCurrentView()
+      if (placesIndex === places.length - 5) {
+        // save next page of search results to state when nearing end of places array
+        this.fetchPlaces()
+      }
     }
     if (choice === "prev") {
       // show previous place if we arent viewing the first place
-      if (placesIndex !== 0) {
+      if (placesIndex !== 1) {
         this.setState(prevState => {
           return {
             placesIndex: prevState.placesIndex - 1
@@ -128,7 +102,7 @@ export default class Body extends Component {
   };
 
   render() {
-    const { places, placesIndex, currentView } = this.state;
+    const { places, placesIndex } = this.state;
     let i = placesIndex;
     return (
       <div className={this.props.className}>
