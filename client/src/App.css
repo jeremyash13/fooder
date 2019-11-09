@@ -2,7 +2,7 @@
     background-color: #fff;
     color: rgb(85, 85, 85);
     border-radius: 32px;
-    box-shadow: 0 10px 14px -6px rgb(0, 0, 0);
+    box-shadow: 0 5px 14px -6px rgb(0, 0, 0, .5);
     height: 75vh;
 }
 
@@ -11,6 +11,10 @@
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
+}
+
+.tags--chip {
+    box-shadow: 0 5px 6px -5px rgba(0, 0, 0, 0.5);
 }
 
 .button--primary {
