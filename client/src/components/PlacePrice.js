@@ -4,15 +4,19 @@ import { faDollarSign } from "@fortawesome/free-solid-svg-icons";
 
 export default function PlacePrice(props) {
   const priceRating = dollarCount => {
-    let dollarArray = [];
-    dollarCount = Math.round(dollarCount);
-    for (let i = 0; i < dollarCount; i++) {
-      dollarArray = [
-        ...dollarArray,
-        <FontAwesomeIcon icon={faDollarSign} color="green" key={i} />
-      ];
+    if (dollarCount !== undefined) {
+      let dollarArray = [' ',];
+      dollarCount = Math.round(dollarCount);
+      for (let i = 0; i < dollarCount; i++) {
+        dollarArray = [
+          ...dollarArray,
+          <FontAwesomeIcon icon={faDollarSign} color="green" key={i} />
+        ];
+      }
+      return dollarArray;
+    } else {
+      return ' Unknown'
     }
-    return dollarArray;
   };
 
   return (

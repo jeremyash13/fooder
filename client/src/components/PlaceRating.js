@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 const starRating = starCount => {
-  let starArray = [];
+  let starArray = [' ',];
   starCount = Math.round(starCount)
   for (let i = 0; i < starCount; i++) {
       starArray = [
