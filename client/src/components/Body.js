@@ -73,33 +73,6 @@ export default class Body extends Component {
       this.setState(newState)
   };
 
-  handleChoice = choice => {
-    const { placesIndex, places } = this.state;
-    if (choice === "next") {
-      if (placesIndex !== places.length - 1) {
-        // show next place if we arent viewing the final place
-        this.setState(prevState => {
-          return {
-            placesIndex: prevState.placesIndex + 1
-          };
-        });
-      }
-      if (placesIndex === places.length - 5) {
-        // save next page of search results to state when nearing end of places array
-        this.fetchPlaces()
-      }
-    }
-    if (choice === "prev") {
-      // show previous place if we arent viewing the first place
-      if (placesIndex !== 1) {
-        this.setState(prevState => {
-          return {
-            placesIndex: prevState.placesIndex - 1
-          };
-        });
-      }
-    }
-  };
   handleShowNextPlace = () => {
     const { placesIndex, places } = this.state;
     if (placesIndex !== places.length - 1) {
