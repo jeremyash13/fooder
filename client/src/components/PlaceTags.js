@@ -13,11 +13,11 @@ export default function PlaceTags(props) {
     for (let i = 0; i < tagCount.length; i++) {
       // chipArray = [...chipArray, <Chip label={props.value[i]} key={i} />];
       if (props.value[i] === 'bar') {
-        chipArray = [...chipArray,<Chip label={'Bar'}><FontAwesomeIcon icon={faGlassCheers} color={'red'} key={i}/></Chip>]
+        chipArray = [...chipArray,<Chip label={'Bar'} key={i} icon={<FontAwesomeIcon icon={faGlassCheers} />}/>]
       } else if (props.value[i] === 'restaurant') {
-        chipArray = [...chipArray, <FontAwesomeIcon icon={faUtensils} key={i}/>]
+        chipArray = [...chipArray, <Chip label={'Restaurant'} key={i} icon={<FontAwesomeIcon icon={faUtensils} />}/>]
       } else if (props.value[i] === 'food') {
-        chipArray = [...chipArray, <FontAwesomeIcon icon={faHamburger} key={i}/>]
+        chipArray = [...chipArray, <Chip label={'Food'} key={i} icon={<FontAwesomeIcon icon={faHamburger} />}/>]
       }
     }
     return chipArray;
