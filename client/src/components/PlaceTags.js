@@ -11,7 +11,14 @@ export default function PlaceTags(props) {
   const chipTags = tagCount => {
     let chipArray = [];
     for (let i = 0; i < tagCount.length; i++) {
-      chipArray = [...chipArray, <Chip label={props.value[i]} key={i} />];
+      // chipArray = [...chipArray, <Chip label={props.value[i]} key={i} />];
+      if (props.value[i] === 'bar') {
+        chipArray = [...chipArray,<Chip label={'Bar'}><FontAwesomeIcon icon={faGlassCheers} color={'red'} key={i}/></Chip>]
+      } else if (props.value[i] === 'restaurant') {
+        chipArray = [...chipArray, <FontAwesomeIcon icon={faUtensils} key={i}/>]
+      } else if (props.value[i] === 'food') {
+        chipArray = [...chipArray, <FontAwesomeIcon icon={faHamburger} key={i}/>]
+      }
     }
     return chipArray;
   };

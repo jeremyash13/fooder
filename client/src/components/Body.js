@@ -140,9 +140,7 @@ export default class Body extends Component {
         <PlaceInfo className="PlaceInfo">
           <PlaceRating value={places[i].rating} />
           <PlacePrice value={places[i].price_level} />
-          {/* <PlaceTags
-            value={currentView.types}
-          /> */}
+          <PlaceTags value={[...places[i].types]} />
         </PlaceInfo>
 
         <Button
