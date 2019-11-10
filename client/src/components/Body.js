@@ -91,7 +91,7 @@ export default class Body extends Component {
 
   handleShowPreviousPlace = () => {
     // show previous place if we arent viewing the first place
-    const { placesIndex, places } = this.state;
+    const { placesIndex } = this.state;
     if (placesIndex !== 1) {
       this.setState(prevState => {
         return {
