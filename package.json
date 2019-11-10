@@ -2,12 +2,16 @@
   "name": "fooder",
   "version": "1.0.0",
   "description": "Tinder.... for food!",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "npm start",
-    "client": "cd client && npm start",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "back-end": "npm start",
+    "front-end": "cd client && npm start",
+    "dev": "concurrently \"npm run back-end\" \"npm run front-end\""
+    "start": "node server.js",
+    "server": "node server.js",
+    "client": "npm start --prefix client",
+    "heroku-postbuild": "npm install --prefix client && npm run build --prefix client"
   },
   "repository": {
     "type": "git",
