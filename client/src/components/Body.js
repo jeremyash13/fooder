@@ -23,6 +23,7 @@ export default class Body extends Component {
             types: []
           }],
       placesIndex: 0,
+      isFetchingData: false,
       nextPageToken: null
     };
   }
@@ -46,11 +47,12 @@ export default class Body extends Component {
   }
   fetchPlaces = async () => {
     //fetch nearby restaurants using Google's Places Search API
+    this.setState({isFetchingData: true})
 
     const { location, nextPageToken } = this.state;
 
-    // const url = "http://localhost:8080";
-    const url = "https://fooder--app.herokuapp.com/";
+    const url = "http://localhost:8080";
+    // const url = "https://fooder--app.herokuapp.com/";
     const body = {
       location: location,
       radius: "32186.9" /* 20 mi. (in meters)*/,
@@ -66,16 +68,22 @@ export default class Body extends Component {
     });
     const json = await res.json();
     const newState = this.state
-    newState.places = [...newState.places, ...json.results]
-      newState.nextPageToken = json.next_page_token
-      if (newState.placesIndex === 0) {
-        newState.placesIndex = 1
-      }
-      this.setState(newState)
+    let places = [...newState.places]
+    places = [...places, ...json.results]
+    newState.nextPageToken = json.next_page_token
+    
+    // convert places array to set to purge potential duplicates, then convert back to array
+    newState.places = [...new Set(places)]
+
+    if (newState.placesIndex === 0) {
+      newState.placesIndex = 1
+    }
+    this.setState(newState)
+    this.setState({isFetchingData: false})
   };
 
   handleShowNextPlace = () => {
-    const { placesIndex, places } = this.state;
+    const { placesIndex, places, isFetchingData } = this.state;
     if (placesIndex !== places.length - 1) {
       // show next place if we arent viewing the final place
       this.setState(prevState => {
@@ -84,7 +92,7 @@ export default class Body extends Component {
         };
       });
     }
-    if (placesIndex >= places.length - 5) {
+    if (placesIndex >= places.length - 5 && isFetchingData === false) {
       // save next page of search results to state when nearing end of places array
       this.fetchPlaces()
     }

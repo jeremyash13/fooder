@@ -14,9 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.post('/', async (req, res) => {
-  const {
-    location, radius, type, pageToken,
-  } = req.body;
+  const { location, radius, type, pageToken } = req.body;
   const key = process.env.GOOGLE_API_KEY;
   let url;
 
