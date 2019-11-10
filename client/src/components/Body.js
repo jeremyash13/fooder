@@ -49,8 +49,8 @@ export default class Body extends Component {
 
     const { location, nextPageToken } = this.state;
 
-    // const url = "http://localhost:8080";
-    const url = "https://fooder--app.herokuapp.com/";
+    const url = "http://localhost:8080";
+    // const url = "https://fooder--app.herokuapp.com/";
     const body = {
       location: location,
       radius: "32186.9" /* 20 mi. (in meters)*/,
