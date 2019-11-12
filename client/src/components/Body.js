@@ -7,6 +7,7 @@ import PlacePrice from "./PlacePrice";
 import PlaceTags from "./PlaceTags";
 import PlaceAddress from "./PlaceAddress";
 import PlaceName from "./PlaceName";
+import PlacePhoto from "./PlacePhoto";
 
 export default class Body extends Component {
   constructor(props) {
@@ -20,7 +21,10 @@ export default class Body extends Component {
             vicinity: "",
             rating: "",
             price_level: "",
-            types: []
+            types: [],
+            photos: [{
+              photo_reference: "",
+            }],
           }],
       placesIndex: 0,
       isFetchingData: false,
@@ -117,6 +121,7 @@ export default class Body extends Component {
       <div className={this.props.className}>
         <Heading className="Heading">
           <PlaceName value={places[i].name} />
+          <PlacePhoto value={places[i].photos[0].photo_reference}></PlacePhoto>
         </Heading>
         <PlaceInfo className="PlaceInfo">
           <PlaceAddress value={places[i].vicinity} />

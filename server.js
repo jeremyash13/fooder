@@ -29,6 +29,15 @@ app.post('/', async (req, res) => {
   res.send(json);
 });
 
+app.post('/photos', async (req, res) => {
+  const { photoreference } = req.body;
+  const key = process.env.GOOGLE_API_KEY;
+  const url = `https://maps.googleapis.com/maps/api/place/photo?key=${key}&photoreference=${photoreference}&maxwidth=400`;
+
+  const photo = await fetch(url);
+  res.send(photo);
+});
+
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
   app.get('*', (req, res) => {
