@@ -79,7 +79,7 @@ export default class Body extends Component {
       newState.placesIndex = 1
     }
     this.setState(newState)
-    this.setState({isFetchingData: false})
+    this.setState({isFetchingData: false}, () => {console.log(this.state.places)})
   };
 
   handleShowNextPlace = () => {
