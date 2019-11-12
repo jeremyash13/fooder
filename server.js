@@ -30,12 +30,18 @@ app.post('/', async (req, res) => {
 });
 
 app.post('/photos', async (req, res) => {
-  const { photoreference } = req.body;
+  // const { photoreference } = req.body;
+  const photoreference = 'CmRaAAAA4VHkY-1LyjPjNs2gaGgaWy0bZkc5HaXu3aK1O705kyLz-dudTb_k-Nw2EvlGXEBlKEosFd-ZbCLGAtebdK_14vZ4Y-zjURS987XPMGP2iSczlHI9uAZufqGLnkdsC1O_EhBQeVos2Rt4eZVda-B-vBIFGhRNzcZZrzLO2F-GssOoP_uyaMYVLw';
   const key = process.env.GOOGLE_API_KEY;
   const url = `https://maps.googleapis.com/maps/api/place/photo?key=${key}&photoreference=${photoreference}&maxwidth=400`;
 
-  const photo = await fetch(url);
-  res.send(photo);
+  let photo = await fetch(url);
+  let photoURL = photo.url;
+
+  console.log(photoURL)
+  res.type('text/plain')
+  res.send(photoURL);
+  res.end();
 });
 
 if (process.env.NODE_ENV === 'production') {

@@ -1,45 +1,45 @@
-import React from 'react'
+import React, { Component } from 'react'
 
+export default class PlacePhoto extends Component {
 
-const fetchPhoto = async (props) => {
+    constructor(props){
+        super(props);
+
+        this.state = {
+            imageURL: ''
+        }
+    }
+    componentDidUpdate(props) {
+        if(this.state.imageURL === '') {
+            this.fetchPhoto(props);
+        }
+    }
+    fetchPhoto = async (props) => {
     
     const photoreference = props.value;
-
+    
     const url = "http://localhost:8080/photos";
     const body = {
-      photoreference: photoreference
+    //   photoreference: photoreference
+    photoreference: 'CmRaAAAA4VHkY-1LyjPjNs2gaGgaWy0bZkc5HaXu3aK1O705kyLz-dudTb_k-Nw2EvlGXEBlKEosFd-ZbCLGAtebdK_14vZ4Y-zjURS987XPMGP2iSczlHI9uAZufqGLnkdsC1O_EhBQeVos2Rt4eZVda-B-vBIFGhRNzcZZrzLO2F-GssOoP_uyaMYVLw'
     };
-    const res = await fetch(url, {
+    const photoURL = await fetch(url, {
       method: "POST",
       body: JSON.stringify(body),
     //   headers: {
     //     "Content-Type": "image/jpeg"
     //   }
     });
-    let photoBuffer = await res.arrayBuffer();
-    let photo = arrayBufferToBase64(photoBuffer);
-    const base64Flag = 'data:image/jpeg;base64,';
-    let final = base64Flag + photo;
-    console.log(final);
-    return final;
+    console.log(photoURL)
+    this.setState({imageURL: photoURL})
     
-  };
+    };
 
-  function arrayBufferToBase64(buffer) {
-    let binary = '';
-    let bytes = [].slice.call(new Uint8Array(buffer));
-  
-    bytes.forEach((b) => binary += String.fromCharCode(b));
-  
-    return window.btoa(binary);
-  };
-
-export default function PlacePhoto(props) {
-
-
-    return (
-        <div>
-            <img width="50px" src={fetchPhoto(props)}></img>
-        </div>
-    )
+    render() {
+        return (
+            <div>
+                <img src={this.state.imageURL}></img>
+            </div>
+        )
+    }
 }

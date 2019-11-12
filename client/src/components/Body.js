@@ -121,7 +121,7 @@ export default class Body extends Component {
       <div className={this.props.className}>
         <Heading className="Heading">
           <PlaceName value={places[i].name} />
-          <PlacePhoto value={places[i].photos[0].photo_reference}></PlacePhoto>
+          <PlacePhoto value={places[i].photos[0].photo_reference}></PlacePhoto> 
         </Heading>
         <PlaceInfo className="PlaceInfo">
           <PlaceAddress value={places[i].vicinity} />
