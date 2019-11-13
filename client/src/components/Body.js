@@ -86,6 +86,12 @@ export default class Body extends Component {
     this.setState({isFetchingData: false}, () => {console.log(this.state.places)})
   };
 
+  fetchPhotos = async (inputArray) => {
+    const neededPhotos = inputArray.map((item) => {
+
+    })
+  }
+
   handleShowNextPlace = () => {
     const { placesIndex, places, isFetchingData } = this.state;
     if (placesIndex !== places.length - 1) {
