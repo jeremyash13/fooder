@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { type } from 'os';
 
 export default class PlacePhoto extends Component {
 
@@ -6,30 +7,32 @@ export default class PlacePhoto extends Component {
         super(props);
 
         this.state = {
-            imageURL: ''
+            imageURL: '',
+            currentPhotoRef: ''
         }
     }
     componentDidUpdate(props) {
-        if(this.state.imageURL !== '') {
+        if(props.photoRef !== '' && this.state.currentPhotoRef !== props.photoRef) {
             this.fetchPhoto(props);
         }
     }
     fetchPhoto = async (props) => {
     
-    const photoreference = props.photoRef;
-    console.log(photoreference)
+    const photoRef = props.photoRef;
     
     const url = "http://localhost:8080/photos";
     const body = {
-      photoreference: photoreference
-    // photoreference: 'CmRaAAAA4VHkY-1LyjPjNs2gaGgaWy0bZkc5HaXu3aK1O705kyLz-dudTb_k-Nw2EvlGXEBlKEosFd-ZbCLGAtebdK_14vZ4Y-zjURS987XPMGP2iSczlHI9uAZufqGLnkdsC1O_EhBQeVos2Rt4eZVda-B-vBIFGhRNzcZZrzLO2F-GssOoP_uyaMYVLw'
+      photoreference: photoRef
     };
     const photoURL = await fetch(url, {
-      method: "POST",
-      body: JSON.stringify(body),
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+            'Content-Type': 'application/json'
+        }
     });
     const json = await photoURL.json()
-    this.setState({imageURL: json.url})
+    this.setState({imageURL: json.url, currentPhotoRef: photoRef})
     
     };
 
