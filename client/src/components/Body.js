@@ -22,9 +22,7 @@ export default class Body extends Component {
             rating: "",
             price_level: "",
             types: [],
-            photos: [{
-              photo_reference: "",
-            }],
+            photos: [{}],
           }],
       placesIndex: 0,
       isFetchingData: false,
@@ -78,6 +76,7 @@ export default class Body extends Component {
     
     // convert places array to set to purge potential duplicates, then convert back to array
     newState.places = [...new Set(places)]
+    this.fetchPhotos(newState.places)
 
     if (newState.placesIndex === 0) {
       newState.placesIndex = 1
@@ -87,9 +86,24 @@ export default class Body extends Component {
   };
 
   fetchPhotos = async (inputArray) => {
-    const neededPhotos = inputArray.map((item) => {
-
+    const url = 'http://localhost:8080/photos'
+    const neededPhotos = inputArray.map((item, idx) => {
+      if (item.photos !== undefined) {
+        return item.photos[0].photo_reference
+      } else {
+        console.log(idx + ' contains no photos')
+        return null
+      }
     })
+    const res = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(neededPhotos),
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+    const json = await res.json()
+    console.log(json)
   }
 
   handleShowNextPlace = () => {
@@ -127,7 +141,7 @@ export default class Body extends Component {
       <div className={this.props.className}>
         <Heading className="Heading">
           <PlaceName value={places[i].name} />
-          <PlacePhoto photoRef={places[i].photos[0].photo_reference}></PlacePhoto> 
+          {/* <PlacePhoto photoRef={places[i].photo}></PlacePhoto>  */}
         </Heading>
         <PlaceInfo className="PlaceInfo">
           <PlaceAddress value={places[i].vicinity} />
