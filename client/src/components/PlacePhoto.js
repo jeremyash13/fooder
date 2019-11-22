@@ -5,21 +5,21 @@ export default class PlacePhoto extends Component {
 
     constructor(props){
         super(props);
-
-        this.state = {
-            imageURL: '',
-            currentPhotoRef: ''
-        }
-    }
-    componentDidUpdate() {
-        
     }
 
     render() {
-        return (
-            <div>
-                <img src={''}></img>
-            </div>
-        )
+        if(this.props.value){
+            return (
+                <div>
+                    <img src={`${this.props.value}`}></img>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <h3>no photos could be found</h3>
+                </div>
+            )
+        }
     }
 }

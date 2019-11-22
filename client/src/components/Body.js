@@ -25,6 +25,7 @@ export default class Body extends Component {
             photos: [{}],
           }],
       placesIndex: 0,
+      placePhotoUrls: [''],
       isFetchingData: false,
       nextPageToken: null
     };
@@ -91,7 +92,6 @@ export default class Body extends Component {
       if (item.photos !== undefined) {
         return item.photos[0].photo_reference
       } else {
-        console.log(idx + ' contains no photos')
         return null
       }
     })
@@ -103,7 +103,9 @@ export default class Body extends Component {
       }
     })
     const json = await res.json()
-    console.log(json)
+    const newState = this.state
+    newState.placePhotoUrls = [...newState.placePhotoUrls, ...json]
+    this.setState(newState)
   }
 
   handleShowNextPlace = () => {
@@ -135,13 +137,13 @@ export default class Body extends Component {
   }
 
   render() {
-    const { places, placesIndex } = this.state;
+    const { places, placesIndex, placePhotoUrls } = this.state;
     let i = placesIndex;
     return (
       <div className={this.props.className}>
         <Heading className="Heading">
           <PlaceName value={places[i].name} />
-          {/* <PlacePhoto photoRef={places[i].photo}></PlacePhoto>  */}
+          <PlacePhoto value={placePhotoUrls[i+1]}></PlacePhoto>
         </Heading>
         <PlaceInfo className="PlaceInfo">
           <PlaceAddress value={places[i].vicinity} />

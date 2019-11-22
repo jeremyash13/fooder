@@ -31,18 +31,33 @@ app.post('/', async (req, res) => {
 
 app.post('/photos', async (req, res) => {
   const key = process.env.GOOGLE_API_KEY;
-  const urlArray = req.body.map(async (item) => {
-    if (item) {
-      const url = `https://maps.googleapis.com/maps/api/place/photo?key=${key}&photoreference=${item}&maxwidth=400`;
-      const res = await fetch(url)
-      return res.url
-    }
-  })
-  const json = JSON.stringify(urlArray)
-  setTimeout(() => {
-    console.log(urlArray)
-    res.send(json);
-  }, 1000)
+  // const urlArrayOld = req.body.map(async (item) => {
+    //   if (item) {
+      //   const url = `https://maps.googleapis.com/maps/api/place/photo?key=${key}&photoreference=${item}&maxwidth=400`;
+      //     const res = await fetch(url)
+      //     return res.url
+      //   }
+      // })
+  const getPhotosArray = (req) => {
+    const promises = req.body.map((photoRef) => {
+      if (photoRef) {
+        const url = `https://maps.googleapis.com/maps/api/place/photo?key=${key}&photoreference=${photoRef}&maxwidth=400`;
+        return fetch(url)
+              .then((data) => {
+                return data.url
+              })
+
+      } else {
+        return null
+      }
+    })
+    Promise.all(promises)
+    .then((urlArray) => {
+      res.send(urlArray)
+    })
+
+  }
+  getPhotosArray(req)
 
 });
 
