@@ -16,23 +16,24 @@ export default class Body extends Component {
     this.state = {
       //location (Lat, Long)
       location: "",
-      places: [{
-            name: "",
-            vicinity: "",
-            rating: "",
-            price_level: "",
-            types: [],
-            photos: [{}],
-          }],
+      places: [
+        {
+          name: "",
+          vicinity: "",
+          rating: "",
+          price_level: "",
+          types: [],
+          photos: [{}]
+        }
+      ],
       placesIndex: 0,
-      placePhotoUrls: [''],
+      placePhotoUrls: [""],
       isFetchingData: false,
       nextPageToken: null
     };
   }
   componentDidMount() {
     this.getGeoLocation();
-    
   }
   getGeoLocation() {
     // Get user location (latitude, longitude)
@@ -45,12 +46,11 @@ export default class Body extends Component {
         location: latitude + "," + longitude
       });
       this.fetchPlaces();
-      
     });
   }
   fetchPlaces = async () => {
     //fetch nearby restaurants using Google's Places Search API
-    this.setState({isFetchingData: true})
+    this.setState({ isFetchingData: true });
 
     const { location, nextPageToken } = this.state;
 
@@ -70,43 +70,45 @@ export default class Body extends Component {
       }
     });
     const json = await res.json();
-    const newState = this.state
-    let places = [...newState.places]
-    places = [...places, ...json.results]
-    newState.nextPageToken = json.next_page_token
-    
+    const newState = this.state;
+    let places = [...newState.places];
+    places = [...places, ...json.results];
+    newState.nextPageToken = json.next_page_token;
+
     // convert places array to set to purge potential duplicates, then convert back to array
-    newState.places = [...new Set(places)]
-    this.fetchPhotos(newState.places)
+    newState.places = [...new Set(places)];
+    this.fetchPhotos(newState.places);
 
     if (newState.placesIndex === 0) {
-      newState.placesIndex = 1
+      newState.placesIndex = 1;
     }
-    this.setState(newState)
-    this.setState({isFetchingData: false}, () => {console.log(this.state.places)})
+    this.setState(newState);
+    this.setState({ isFetchingData: false }, () => {
+      console.log(this.state.places);
+    });
   };
 
-  fetchPhotos = async (inputArray) => {
-    const url = 'http://localhost:8080/photos'
+  fetchPhotos = async inputArray => {
+    const url = "http://localhost:8080/photos";
     const neededPhotos = inputArray.map((item, idx) => {
       if (item.photos !== undefined) {
-        return item.photos[0].photo_reference
+        return item.photos[0].photo_reference;
       } else {
-        return null
+        return null;
       }
-    })
+    });
     const res = await fetch(url, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(neededPhotos),
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       }
-    })
-    const json = await res.json()
-    const newState = this.state
-    newState.placePhotoUrls = [...newState.placePhotoUrls, ...json]
-    this.setState(newState)
-  }
+    });
+    const json = await res.json();
+    const newState = this.state;
+    newState.placePhotoUrls = [...newState.placePhotoUrls, ...json];
+    this.setState(newState);
+  };
 
   handleShowNextPlace = () => {
     const { placesIndex, places, isFetchingData } = this.state;
@@ -120,9 +122,9 @@ export default class Body extends Component {
     }
     if (placesIndex >= places.length - 5 && isFetchingData === false) {
       // save next page of search results to state when nearing end of places array
-      this.fetchPlaces()
+      this.fetchPlaces();
     }
-  }
+  };
 
   handleShowPreviousPlace = () => {
     // show previous place if we arent viewing the first place
@@ -134,7 +136,7 @@ export default class Body extends Component {
         };
       });
     }
-  }
+  };
 
   render() {
     const { places, placesIndex, placePhotoUrls } = this.state;
@@ -143,7 +145,7 @@ export default class Body extends Component {
       <div className={this.props.className}>
         <Heading className="Heading">
           <PlaceName value={places[i].name} />
-          <PlacePhoto value={placePhotoUrls[i+1]}></PlacePhoto>
+          <PlacePhoto value={placePhotoUrls[i + 1]}></PlacePhoto>
         </Heading>
         <PlaceInfo className="PlaceInfo">
           <PlaceAddress value={places[i].vicinity} />
