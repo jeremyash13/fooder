@@ -6,12 +6,12 @@ export default class PlacePhoto extends Component {
     constructor(props){
         super(props);
     }
-
+    
     render() {
         if(this.props.value){
             return (
                 <div>
-                    <img src={`${this.props.value}`}></img>
+                    <img src={`data:image/jpeg;base64,${this.props.value}`}></img>
                 </div>
             )
         } else {

@@ -36,7 +36,18 @@ app.post("/photos",(req, res) => {
         const url = `https://maps.googleapis.com/maps/api/place/photo?key=${key}&photoreference=${photoRef}&maxwidth=400`;
         return fetch(url)
           .then(data => {
-            return data.url;
+            let imagePromise;
+            let image;
+            let chunks = [];
+            return imagePromise = new Promise((resolve, reject) => {
+              data.body.on('data', (chunk) => {
+                chunks.push(chunk);
+              })
+              data.body.on('end', () => {
+                image = Buffer.concat(chunks).toString('base64');
+                resolve(image);
+              })  
+            })
           })
           .catch(err => console.log(err));
       } else {
@@ -44,8 +55,8 @@ app.post("/photos",(req, res) => {
       }
     });
     Promise.all(promises)
-      .then(urlArray => {
-        res.send(urlArray);
+      .then(dataURIArray => {
+        res.send(dataURIArray);
       })
       .catch(err => console.log(err));
   };
