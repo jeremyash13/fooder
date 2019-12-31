@@ -18,6 +18,7 @@ app.post("/", async (req, res) => {
   let url;
 
   if (pageToken) {
+    // 2 different urls depending on if a pageToken is present in the request body
     url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${key}&opennow=true&location=${location}&radius=${radius}&type=${type}&pagetoken=${pageToken}`;
   } else {
     url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=${key}&opennow=true&location=${location}&radius=${radius}&type=${type}`;
@@ -32,6 +33,7 @@ app.post("/photos",(req, res) => {
   const key = process.env.GOOGLE_API_KEY;
   const getPhotosArray = req => {
     const promises = req.body.map(photoRef => {
+      // array of promises 
       if (photoRef) {
         const url = `https://maps.googleapis.com/maps/api/place/photo?key=${key}&photoreference=${photoRef}&maxwidth=400`;
         return fetch(url)
@@ -40,6 +42,7 @@ app.post("/photos",(req, res) => {
             let image;
             let chunks = [];
             return imagePromise = new Promise((resolve, reject) => {
+              //concatinate all data chunks into one before encoding to base64
               data.body.on('data', (chunk) => {
                 chunks.push(chunk);
               })
@@ -55,6 +58,7 @@ app.post("/photos",(req, res) => {
       }
     });
     Promise.all(promises)
+    // when all images are recieved send the array of dataUri images to front end
       .then(dataURIArray => {
         res.send(dataURIArray);
       })

@@ -71,13 +71,11 @@ export default class Body extends Component {
     });
     const json = await res.json();
     const newState = this.state;
-    let places = [...newState.places];
-    places = [...places, ...json.results];
+
+    newState.places = [...newState.places, ...json.results]
     newState.nextPageToken = json.next_page_token;
 
-    // convert places array to set to purge potential duplicates, then convert back to array
-    newState.places = [...new Set(places)];
-    this.fetchPhotos(newState.places);
+    this.fetchPhotos(json.results);
 
     if (newState.placesIndex === 0) {
       newState.placesIndex = 1;
@@ -145,7 +143,7 @@ export default class Body extends Component {
       <div className={this.props.className}>
         <Heading className="Heading">
           <PlaceName value={places[i].name} />
-          <PlacePhoto value={placePhotoUrls[i + 1]}></PlacePhoto>
+          <PlacePhoto value={placePhotoUrls[i]}></PlacePhoto>
         </Heading>
         <PlaceInfo className="PlaceInfo">
           <PlaceAddress value={places[i].vicinity} />
