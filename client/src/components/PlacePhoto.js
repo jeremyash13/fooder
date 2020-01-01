@@ -1,17 +1,13 @@
-import React, { Component } from 'react'
-import { type } from 'os';
+import React, { Component } from 'react';
 
 export default class PlacePhoto extends Component {
-
-    constructor(props){
-        super(props);
-    }
     
     render() {
         if(this.props.value){
             return (
-                <div>
-                    <img src={`data:image;base64,${this.props.value}`}></img>
+                <div style={{position: "relative"}}>
+                    <img className={this.props.className} src={`data:image;base64,${this.props.value}`} alt="restaurant"></img>
+                    <img className={`${this.props.className}-shadow`} src={`data:image;base64,${this.props.value}`}></img>
                 </div>
             )
         } else {

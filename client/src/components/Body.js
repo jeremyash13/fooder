@@ -80,10 +80,8 @@ export default class Body extends Component {
     if (newState.placesIndex === 0) {
       newState.placesIndex = 1;
     }
-    this.setState(newState);
-    this.setState({ isFetchingData: false }, () => {
-      console.log(this.state.places);
-    });
+    this.setState(newState, () => {console.log(this.state.places);});
+    this.setState({ isFetchingData: false });
   };
 
   fetchPhotos = async inputArray => {
@@ -143,9 +141,9 @@ export default class Body extends Component {
       <div className={this.props.className}>
         <Heading className="Heading">
           <PlaceName value={places[i].name} />
-          <PlacePhoto value={placePhotoUrls[i]}></PlacePhoto>
+          <PlacePhoto className="place-photo" value={placePhotoUrls[i]}></PlacePhoto>
         </Heading>
-        <PlaceInfo className="PlaceInfo">
+        <PlaceInfo className="place-info">
           <PlaceAddress value={places[i].vicinity} />
           <PlaceRating value={places[i].rating} />
           <PlacePrice value={places[i].price_level} />

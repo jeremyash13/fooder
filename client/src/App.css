@@ -13,6 +13,29 @@
     height: 100%;
 }
 
+.place-photo,
+.place-photo-shadow {
+    position: absolute;
+    border-radius: 20px;
+    max-height: 300px;
+    left: 50%;
+}
+
+.place-photo {
+    z-index: 10;
+    transform: translateX(-50%);
+}
+
+.place-photo-shadow {
+    filter: blur(18px);
+    transform: scale(.85) translateY(30px) translateX(-57%);
+}
+
+.place-info {
+    margin-top: auto;
+    margin-bottom: 15px;
+}
+
 .tags--chip {
     box-shadow: 0 5px 6px -5px rgba(0, 0, 0, 0.5);
 }
