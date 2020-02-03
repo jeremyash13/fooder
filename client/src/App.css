@@ -1,8 +1,14 @@
 .App {
-    background-color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #E0E5EC;
     color: rgb(85, 85, 85);
     border-radius: 32px;
-    box-shadow: 0 5px 14px -6px rgb(0, 0, 0, .5);
+    box-shadow:
+        -10px -10px 20px rgb(255, 255, 255, .5),
+        10px 10px 20px rgba(163, 177, 198, 0.5);
     height: 85vh;
 }
 
@@ -27,6 +33,7 @@
 }
 
 .place-photo-shadow {
+    display: none;
     filter: blur(18px);
     transform: scale(.85) translateY(30px) translateX(-57%);
 }
@@ -37,7 +44,9 @@
 }
 
 .tags--chip {
-    box-shadow: 0 5px 6px -5px rgba(0, 0, 0, 0.5);
+    box-shadow:
+        -7px -7px 12px rgb(255, 255, 255, .5),
+        7px 7px 12px rgba(163, 177, 198, .3);
 }
 
 .button--primary {
